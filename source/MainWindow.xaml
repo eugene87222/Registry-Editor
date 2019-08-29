@@ -1,142 +1,94 @@
-﻿<Window x:Class="regedit_TOOL.MainWindow"
+﻿<Window x:Class="RegEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:regedit_TOOL"
+        xmlns:local="clr-namespace:RegEditor"
         mc:Ignorable="d"
-        Title="RegEditor" Height="380" Width="480">
-    <Window.Resources>
-        <Style TargetType="Label" x:Key="DefaultLabel">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="FontFamily" Value="Microsoft JhengHei"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="#FF000000"/>
-        </Style>
-        <Style TargetType="TextBox" x:Key="DefaultTextBox">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="TextBox" x:Key="DataTextBox1" BasedOn="{StaticResource DefaultTextBox}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="0">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="1">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="2">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="3">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="4">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="5">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="TextBox" x:Key="DataTextBox2" BasedOn="{StaticResource DefaultTextBox}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="0">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="1">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="2">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="3">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="4">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedIndex, ElementName=TypeValue}" Value="5">
-                    <DataTrigger.Setters>
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="ComboBox" x:Key="DefaultComboBox">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="25"/>
-        </Style>
-        <Style TargetType="Button" x:Key="DefaultButton">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Width" Value="70"/>
-            <Setter Property="Height" Value="25"/>
-        </Style>
-    </Window.Resources>
+        Title="RegEditor" Height="444" Width="680"
+        ResizeMode="NoResize">
 
-    <Viewbox>
-        <Grid Height="350" Width="475">
-            <Label x:Name="Path1Err" Content="*" Style="{StaticResource DefaultLabel}" Margin="380,47,0,0" Foreground="Red" Visibility="Hidden"/>
-            <Label x:Name="Path2Err" Content="*" Style="{StaticResource DefaultLabel}" Margin="380,77,0,0" Foreground="Red" Visibility="Hidden"/>
-            <Label x:Name="NameErr" Content="*" Style="{StaticResource DefaultLabel}" Margin="380,107,0,0" Foreground="Red" Visibility="Hidden"/>
-            <Label x:Name="TypeErr" Content="*" Style="{StaticResource DefaultLabel}" Margin="380,137,0,0" Foreground="Red" Visibility="Hidden"/>
-            <Label x:Name="Path1" Content="登錄檔路徑 1" Style="{StaticResource DefaultLabel}" Margin="94,47,0,0"/>
-            <Label x:Name="Path2" Content="登錄檔路徑 2" Style="{StaticResource DefaultLabel}" Margin="94,77,0,0"/>
-            <Label x:Name="Name" Content="名稱" Style="{StaticResource DefaultLabel}" Margin="94,107,0,0"/>
-            <Label x:Name="Type" Content="類型" Style="{StaticResource DefaultLabel}" Margin="94,137,0,0" RenderTransformOrigin="1.225,0.449"/>
-            <Label x:Name="Data" Content="資料" Style="{StaticResource DefaultLabel}" Margin="94,167,0,0"/>
+     <Window.Resources>
+          <ResourceDictionary>
+               <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="Style\Style.xaml"/>
+               </ResourceDictionary.MergedDictionaries>
+          </ResourceDictionary>
+     </Window.Resources>
 
-            <ComboBox x:Name="PathValue1" Style="{StaticResource DefaultComboBox}" Margin="179,47,-63,0">
-                <ComboBoxItem Content="HKEY_CLASSES_ROOT"/>
-                <ComboBoxItem Content="HKEY_CURRENT_USER"/>
-                <ComboBoxItem Content="HKEY_LOCAL_MACHINE"/>
-                <ComboBoxItem Content="HKEY_USERS"/>
-                <ComboBoxItem Content="HKEY_CURRENT_CONFIG"/>
-            </ComboBox>
-            <TextBox x:Name="PathValue2" Margin="179,77,-63,0" Style="{StaticResource DefaultTextBox}"/>
-            <TextBox x:Name="NameValue" Margin="179,107,-63,0" Style="{StaticResource DefaultTextBox}"/>
-            <ComboBox x:Name="TypeValue" Style="{StaticResource DefaultComboBox}" Margin="179,137,-63,0">
-                <ComboBoxItem Content="REG_SZ"/>
-                <ComboBoxItem Content="REG_BINARY"/>
-                <ComboBoxItem Content="REG_DWORD"/>
-                <ComboBoxItem Content="REG_QWORD"/>
-                <ComboBoxItem Content="REG_MULTI_SZ"/>
-                <ComboBoxItem Content="REG_EXPAND_SZ"/>
-            </ComboBox>
-            <TextBox x:Name="DataValue1" Margin="179,167,-63,0" Style="{StaticResource DataTextBox1}"/>
-            <TextBox x:Name="DataValue2" Margin="179,167,-63,0" Style="{StaticResource DataTextBox2}" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="84"/>
-            <Button Content="新增登錄檔" Margin="128,280,0,-41" Style="{StaticResource DefaultButton}" Click="Add"/>
-            <Button Content="刪除登錄檔" Margin="203,280,0,-41" Style="{StaticResource DefaultButton}" Click="Delete"/>
-            <Button Content="重設" Margin="278,280,-32,-41" Style="{StaticResource DefaultButton}" Click="Reset"/>
-        </Grid>
-    </Viewbox>
+     <Viewbox>
+          <Grid>
+               <!-- useless rectangles - start -->
+               <Rectangle Fill="#FFC6EAFF" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="388" Height="611" RenderTransformOrigin="0.5,0.5" Margin="111,-117,0,-144">
+                    <Rectangle.RenderTransform>
+                         <TransformGroup>
+                              <ScaleTransform/>
+                              <SkewTransform/>
+                              <RotateTransform Angle="-90"/>
+                              <TranslateTransform X="-36.258" Y="-21.334"/>
+                         </TransformGroup>
+                    </Rectangle.RenderTransform>
+               </Rectangle>
+               <Rectangle Fill="#FFD697E4" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="746" Height="516" RenderTransformOrigin="0.5,0.5" Margin="165,-46,-401,-120">
+                    <Rectangle.RenderTransform>
+                         <TransformGroup>
+                              <ScaleTransform/>
+                              <SkewTransform/>
+                              <RotateTransform Angle="-135"/>
+                              <TranslateTransform X="-144.995" Y="-137.293"/>
+                         </TransformGroup>
+                    </Rectangle.RenderTransform>
+               </Rectangle>
+               <Rectangle Fill="#FF6FB9EC" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="694" Height="389" RenderTransformOrigin="0.5,0.5" Margin="-124,-69,-60,0">
+                    <Rectangle.RenderTransform>
+                         <TransformGroup>
+                              <ScaleTransform/>
+                              <SkewTransform/>
+                              <RotateTransform Angle="-45"/>
+                              <TranslateTransform X="168.199" Y="137.423"/>
+                         </TransformGroup>
+                    </Rectangle.RenderTransform>
+               </Rectangle>
+               <!-- useless rectangles - end -->
+               <Label x:Name="Path1" Content="登錄檔路徑 1" Style="{StaticResource DefaultLabel}" Margin="106,45,0,0"/>
+               <Label x:Name="Path2" Content="登錄檔路徑 2" Style="{StaticResource DefaultLabel}" Margin="106,75,0,0"/>
+               <Label x:Name="Name" Content="名稱" Style="{StaticResource DefaultLabel}" Margin="106,105,0,0"/>
+               <Label x:Name="Type" Content="類型" Style="{StaticResource DefaultLabel}" Margin="106,135,0,0" RenderTransformOrigin="1.225,0.449"/>
+               <Label x:Name="Data" Content="資料" Style="{StaticResource DefaultLabel}" Margin="106,165,0,0"/>
+
+               <ComboBox x:Name="PathValue1" Style="{StaticResource DefaultComboBox}" Margin="197,47,0,0">
+                    <ComboBoxItem Content="HKEY_CLASSES_ROOT" IsEnabled="False"/>
+                    <ComboBoxItem Content="HKEY_CURRENT_USER"/>
+                    <ComboBoxItem Content="HKEY_LOCAL_MACHINE" IsEnabled="False"/>
+                    <ComboBoxItem Content="HKEY_USERS" IsEnabled="False"/>
+                    <ComboBoxItem Content="HKEY_CURRENT_CONFIG" IsEnabled="False"/>
+               </ComboBox>
+               <TextBox x:Name="PathValue2" Margin="197,77,0,0" Style="{StaticResource DefaultTextBox}"/>
+               <TextBox x:Name="NameValue" Margin="197,107,0,0" Style="{StaticResource DefaultTextBox}"/>
+               <ComboBox x:Name="TypeValue" Style="{StaticResource DefaultComboBox}" Margin="197,137,0,0">
+                    <ComboBoxItem Content="REG_SZ"/>
+                    <ComboBoxItem Content="REG_BINARY"/>
+                    <ComboBoxItem Content="REG_DWORD"/>
+                    <ComboBoxItem Content="REG_QWORD"/>
+                    <ComboBoxItem Content="REG_MULTI_SZ"/>
+                    <ComboBoxItem Content="REG_EXPAND_SZ"/>
+               </ComboBox>
+               <TextBox x:Name="DataValue1" Margin="197,167,0,0" Style="{StaticResource DataTextBox1}"/>
+               <TextBox x:Name="DataValue2" Margin="197,167,0,0" Style="{StaticResource DataTextBox2}" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="84"/>
+               <Button Content="新增登錄檔" Margin="130,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Add"/>
+               <Button Content="刪除登錄檔" Margin="215,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Delete"/>
+               <Button Content="重設" Margin="300,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Reset"/>
+
+               <Border x:Name="ConfirmBorder" Visibility="Hidden" CornerRadius="5" BorderThickness="0" Background="WhiteSmoke" Width="350" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border.Effect>
+                         <DropShadowEffect Color="#FFACACAC" BlurRadius="10" ShadowDepth="1" Opacity="1"/>
+                    </Border.Effect>
+               </Border>
+               <Grid x:Name="ConfirmBox" Visibility="Hidden" Width="350" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,127,0,0">
+                    <Label x:Name="ConfirmMsg" Content="message" Style="{StaticResource DefaultLabel}" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                    <Button Content="確定" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="91,60,0,0" Click="ConfirmDelete"/>
+                    <Button Content="取消" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="179,60,0,0" Click="CancelDelete"/>
+               </Grid>
+          </Grid>
+     </Viewbox>
 </Window>

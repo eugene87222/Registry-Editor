@@ -1,34 +1,28 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace regedit_TOOL
+namespace RegEditor
 {
-    /// <summary>
-    /// MainWindow.xaml 的互動邏輯
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private Color NormalColor = Color.FromRgb(0, 0, 0);
+        private Color NormalBackGround = Color.FromRgb(0, 0, 0);
+        private double NormalOpacity = 0;
+
+        private Color ErrorColor = Color.FromRgb(0xFF, 0xFF, 0xFF);
+        private Color ErrorBackGround = Color.FromRgb(0xA0, 0x10, 0x10);
+        private double ErrorOpacity = 0.8;
+
+        private double NormalSize = 13;
+        private double ErrorSize = 13;
+
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void AddRegKey(string Path, string RegKey, string KeyVal)
-        {
-
+            SetAllLabelStyle(NormalColor, NormalBackGround, NormalOpacity, FontWeights.Normal, NormalSize);
         }
 
         private bool DigitCheck(string str)
@@ -43,32 +37,104 @@ namespace regedit_TOOL
             return true;
         }
 
+        private void SetIsEnabled(bool val)
+        {
+            this.PathValue1.IsEnabled = val;
+            this.PathValue2.IsEnabled = val;
+            this.NameValue.IsEnabled = val;
+            this.TypeValue.IsEnabled = val;
+            this.DataValue1.IsEnabled = val;
+            this.DataValue2.IsEnabled = val;
+        }
+
+        private void SetLabelStyle(System.Windows.Controls.Label label, Color foreground, Color background, double opacity, FontWeight weight, double size)
+        {
+            label.Foreground = new SolidColorBrush(foreground);
+            label.Background = new SolidColorBrush(background);
+            label.Background.Opacity = opacity;
+            label.FontWeight = weight;
+            label.FontSize = size;
+        }
+
+        private void SetAllLabelStyle(Color foreground, Color background, double opacity, FontWeight weight, double size)
+        {
+            SetLabelStyle(this.Path1, foreground, background, opacity, weight, size);
+            SetLabelStyle(this.Path2, foreground, background, opacity, weight, size);
+            SetLabelStyle(this.Name, foreground, background, opacity, weight, size);
+            SetLabelStyle(this.Type, foreground, background, opacity, weight, size);
+        }
+
+        private void ConfirmDelete(object sender, RoutedEventArgs e)
+        {
+            RegistryKey RegKey, SubRegKey;
+
+            switch (this.PathValue1.SelectedIndex)
+            {
+                case 0:
+                    RegKey = Registry.ClassesRoot;
+                    break;
+                case 1:
+                    RegKey = Registry.CurrentUser;
+                    break;
+                case 2:
+                    RegKey = Registry.LocalMachine;
+                    break;
+                case 3:
+                    RegKey = Registry.Users;
+                    break;
+                case 4:
+                    RegKey = Registry.CurrentConfig;
+                    break;
+                default:
+                    RegKey = null;
+                    break;
+            }
+            SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
+            if (SubRegKey != null)
+            {
+                try
+                {
+                    SubRegKey.DeleteValue(this.NameValue.Text);
+                }
+                catch
+                {
+                }
+            }
+            SetIsEnabled(true);
+            this.ConfirmBorder.Visibility = Visibility.Hidden;
+            this.ConfirmBox.Visibility = Visibility.Hidden;
+        }
+
+        private void CancelDelete(object sender, RoutedEventArgs e)
+        {
+            SetIsEnabled(true);
+            this.ConfirmBorder.Visibility = Visibility.Hidden;
+            this.ConfirmBox.Visibility = Visibility.Hidden;
+        }
+
         private void Add(object sender, RoutedEventArgs e)
         {
             bool valid = true;
+            SetAllLabelStyle(NormalColor, NormalBackGround, NormalOpacity, FontWeights.Normal, NormalSize);
 
-            this.Path1Err.Visibility = Visibility.Hidden;
-            this.Path2Err.Visibility = Visibility.Hidden;
-            this.NameErr.Visibility = Visibility.Hidden;
-            this.TypeErr.Visibility = Visibility.Hidden;
             if (this.PathValue1.Text == "")
             {
-                this.Path1Err.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Path1, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
             if (this.PathValue2.Text == "")
             {
-                this.Path2Err.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Path2, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
             if (this.NameValue.Text == "")
             {
-                this.NameErr.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Name, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
             if (this.TypeValue.Text == "")
             {
-                this.TypeErr.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Type, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
 
@@ -174,68 +240,37 @@ namespace regedit_TOOL
         private void Delete(object sender, RoutedEventArgs e)
         {
             bool valid = true;
+            SetAllLabelStyle(NormalColor, NormalBackGround, NormalOpacity, FontWeights.Normal, NormalSize);
 
-            this.Path1Err.Visibility = Visibility.Hidden;
-            this.Path2Err.Visibility = Visibility.Hidden;
-            this.NameErr.Visibility = Visibility.Hidden;
-            this.TypeErr.Visibility = Visibility.Hidden;
             if (this.PathValue1.Text == "")
             {
-                this.Path1Err.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Path1, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
             if (this.PathValue2.Text == "")
             {
-                this.Path2Err.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Path2, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
             if (this.NameValue.Text == "")
             {
-                this.NameErr.Visibility = Visibility.Visible;
+                SetLabelStyle(this.Name, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
                 valid = false;
             }
 
             if (valid)
             {
-                RegistryKey RegKey, SubRegKey;
-
-                switch (this.PathValue1.SelectedIndex)
-                {
-                    case 0:
-                        RegKey = Registry.ClassesRoot;
-                        break;
-                    case 1:
-                        RegKey = Registry.CurrentUser;
-                        break;
-                    case 2:
-                        RegKey = Registry.LocalMachine;
-                        break;
-                    case 3:
-                        RegKey = Registry.Users;
-                        break;
-                    case 4:
-                        RegKey = Registry.CurrentConfig;
-                        break;
-                    default:
-                        RegKey = null;
-                        break;
-                }
-                SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
-                if (SubRegKey != null)
-                {
-                    try
-                    {
-                        SubRegKey.DeleteValue(this.NameValue.Text);
-                    }
-                    catch
-                    {
-                    }
-                }
+                this.ConfirmBorder.Visibility = Visibility.Visible;
+                this.ConfirmBox.Visibility = Visibility.Visible;
+                string msg = "確定刪除以下登錄檔 ?\n" + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                this.ConfirmMsg.Content = msg;
+                SetIsEnabled(false);
             }
         }
 
         private void Reset(object sender, RoutedEventArgs e)
         {
+            SetAllLabelStyle(NormalColor, NormalBackGround, NormalOpacity, FontWeights.Normal, NormalSize);
             this.PathValue1.SelectedIndex = -1;
             this.PathValue2.Text = "";
             this.NameValue.Text = "";
