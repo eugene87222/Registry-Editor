@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RegEditor"
         mc:Ignorable="d"
         Title="RegEditor" Height="444" Width="680"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize">
 
     <Window.Resources>
         <ResourceDictionary>
