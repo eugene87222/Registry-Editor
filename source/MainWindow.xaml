@@ -8,87 +8,93 @@
         Title="RegEditor" Height="444" Width="680"
         ResizeMode="NoResize">
 
-     <Window.Resources>
-          <ResourceDictionary>
-               <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="Style\Style.xaml"/>
-               </ResourceDictionary.MergedDictionaries>
-          </ResourceDictionary>
-     </Window.Resources>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style\Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
-     <Viewbox>
-          <Grid>
-               <!-- useless rectangles - start -->
-               <Rectangle Fill="#FFC6EAFF" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="388" Height="611" RenderTransformOrigin="0.5,0.5" Margin="111,-117,0,-144">
-                    <Rectangle.RenderTransform>
-                         <TransformGroup>
-                              <ScaleTransform/>
-                              <SkewTransform/>
-                              <RotateTransform Angle="-90"/>
-                              <TranslateTransform X="-36.258" Y="-21.334"/>
-                         </TransformGroup>
-                    </Rectangle.RenderTransform>
-               </Rectangle>
-               <Rectangle Fill="#FFD697E4" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="746" Height="516" RenderTransformOrigin="0.5,0.5" Margin="165,-46,-401,-120">
-                    <Rectangle.RenderTransform>
-                         <TransformGroup>
-                              <ScaleTransform/>
-                              <SkewTransform/>
-                              <RotateTransform Angle="-135"/>
-                              <TranslateTransform X="-144.995" Y="-137.293"/>
-                         </TransformGroup>
-                    </Rectangle.RenderTransform>
-               </Rectangle>
-               <Rectangle Fill="#FF6FB9EC" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="694" Height="389" RenderTransformOrigin="0.5,0.5" Margin="-124,-69,-60,0">
-                    <Rectangle.RenderTransform>
-                         <TransformGroup>
-                              <ScaleTransform/>
-                              <SkewTransform/>
-                              <RotateTransform Angle="-45"/>
-                              <TranslateTransform X="168.199" Y="137.423"/>
-                         </TransformGroup>
-                    </Rectangle.RenderTransform>
-               </Rectangle>
-               <!-- useless rectangles - end -->
-               <Label x:Name="Path1" Content="登錄檔路徑 1" Style="{StaticResource DefaultLabel}" Margin="106,45,0,0"/>
-               <Label x:Name="Path2" Content="登錄檔路徑 2" Style="{StaticResource DefaultLabel}" Margin="106,75,0,0"/>
-               <Label x:Name="Name" Content="名稱" Style="{StaticResource DefaultLabel}" Margin="106,105,0,0"/>
-               <Label x:Name="Type" Content="類型" Style="{StaticResource DefaultLabel}" Margin="106,135,0,0" RenderTransformOrigin="1.225,0.449"/>
-               <Label x:Name="Data" Content="資料" Style="{StaticResource DefaultLabel}" Margin="106,165,0,0"/>
+    <Viewbox>
+        <Grid Width="674" Height="416" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <!-- useless rectangles - start -->
+            <Rectangle Fill="#FFC6EAFF" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="466" Height="745" RenderTransformOrigin="0.5,0.5" Margin="139,-145,0,-184">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-90"/>
+                        <TranslateTransform X="-36.258" Y="-21.334"/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Fill="#FFD697E4" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="870" Height="566" RenderTransformOrigin="0.5,0.5" Margin="214,-82,-410,-68">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-135"/>
+                        <TranslateTransform X="-144.995" Y="-137.293"/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Fill="#FF6FB9EC" Opacity="0.4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="880" Height="389" RenderTransformOrigin="0.5,0.5" Margin="-219,-67,0,0">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform X="168.199" Y="137.423"/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <!-- useless rectangles - end -->
+            <Label x:Name="Path1" Content="登錄檔路徑 1" Style="{StaticResource DefaultLabel}" Margin="154,45,0,0"/>
+            <Label x:Name="Path2" Content="登錄檔路徑 2" Style="{StaticResource DefaultLabel}" Margin="154,82,0,0"/>
+            <Label x:Name="Name" Content="名稱" Style="{StaticResource DefaultLabel}" Margin="154,117,0,0"/>
+            <Label x:Name="Type" Content="類型" Style="{StaticResource DefaultLabel}" Margin="154,152,0,0" RenderTransformOrigin="1.225,0.449"/>
+            <Label x:Name="Data" Content="資料" Style="{StaticResource DefaultLabel}" Margin="154,187,0,0"/>
 
-               <ComboBox x:Name="PathValue1" Style="{StaticResource DefaultComboBox}" Margin="197,47,0,0">
-                    <ComboBoxItem Content="HKEY_CLASSES_ROOT" IsEnabled="False"/>
-                    <ComboBoxItem Content="HKEY_CURRENT_USER"/>
-                    <ComboBoxItem Content="HKEY_LOCAL_MACHINE" IsEnabled="False"/>
-                    <ComboBoxItem Content="HKEY_USERS" IsEnabled="False"/>
-                    <ComboBoxItem Content="HKEY_CURRENT_CONFIG" IsEnabled="False"/>
-               </ComboBox>
-               <TextBox x:Name="PathValue2" Margin="197,77,0,0" Style="{StaticResource DefaultTextBox}"/>
-               <TextBox x:Name="NameValue" Margin="197,107,0,0" Style="{StaticResource DefaultTextBox}"/>
-               <ComboBox x:Name="TypeValue" Style="{StaticResource DefaultComboBox}" Margin="197,137,0,0">
-                    <ComboBoxItem Content="REG_SZ"/>
-                    <ComboBoxItem Content="REG_BINARY"/>
-                    <ComboBoxItem Content="REG_DWORD"/>
-                    <ComboBoxItem Content="REG_QWORD"/>
-                    <ComboBoxItem Content="REG_MULTI_SZ"/>
-                    <ComboBoxItem Content="REG_EXPAND_SZ"/>
-               </ComboBox>
-               <TextBox x:Name="DataValue1" Margin="197,167,0,0" Style="{StaticResource DataTextBox1}"/>
-               <TextBox x:Name="DataValue2" Margin="197,167,0,0" Style="{StaticResource DataTextBox2}" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="84"/>
-               <Button Content="新增登錄檔" Margin="130,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Add"/>
-               <Button Content="刪除登錄檔" Margin="215,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Delete"/>
-               <Button Content="重設" Margin="300,280,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Reset"/>
+            <ComboBox x:Name="PathValue1" Style="{StaticResource DefaultComboBox}" Margin="256,47,0,0">
+                <ComboBoxItem Content="HKEY_CLASSES_ROOT" IsEnabled="False"/>
+                <ComboBoxItem Content="HKEY_CURRENT_USER"/>
+                <ComboBoxItem Content="HKEY_LOCAL_MACHINE" IsEnabled="False"/>
+                <ComboBoxItem Content="HKEY_USERS" IsEnabled="False"/>
+                <ComboBoxItem Content="HKEY_CURRENT_CONFIG" IsEnabled="False"/>
+            </ComboBox>
+            <TextBox x:Name="PathValue2" Margin="256,82,0,0" Style="{StaticResource DefaultTextBox}"/>
+            <TextBox x:Name="NameValue" Margin="256,117,0,0" Style="{StaticResource DefaultTextBox}" RenderTransformOrigin="0.628,1.133"/>
+            <ComboBox x:Name="TypeValue" Style="{StaticResource DefaultComboBox}" Margin="256,152,0,0">
+                <ComboBoxItem Content="REG_SZ"/>
+                <ComboBoxItem Content="REG_BINARY"/>
+                <ComboBoxItem Content="REG_DWORD"/>
+                <ComboBoxItem Content="REG_QWORD" IsEnabled="False"/>
+                <ComboBoxItem Content="REG_MULTI_SZ"/>
+                <ComboBoxItem Content="REG_EXPAND_SZ"/>
+            </ComboBox>
+            <TextBox x:Name="DataValue1" Margin="256,187,0,0" Style="{StaticResource DataTextBox1}"/>
+            <TextBox x:Name="DataValue2" Margin="256,187,0,0" Style="{StaticResource DataTextBox2}" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="122"/>
+            <Button x:Name="ModifyBtn" Content="新增/修改登錄檔" Margin="167,343,0,0" Style="{StaticResource RoundButton}" Width="130" Foreground="White" Background="#FF808080" Click="Add"/>
+            <Button x:Name="DeleteBtn" Content="刪除登錄檔" Margin="302,343,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Delete"/>
+            <Button x:Name="ResetBtn" Content="重設" Margin="407,343,0,0" Style="{StaticResource RoundButton}" Foreground="White" Background="#FF808080" Click="Reset"/>
 
-               <Border x:Name="ConfirmBorder" Visibility="Hidden" CornerRadius="5" BorderThickness="0" Background="WhiteSmoke" Width="350" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Border.Effect>
-                         <DropShadowEffect Color="#FFACACAC" BlurRadius="10" ShadowDepth="1" Opacity="1"/>
-                    </Border.Effect>
-               </Border>
-               <Grid x:Name="ConfirmBox" Visibility="Hidden" Width="350" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,127,0,0">
-                    <Label x:Name="ConfirmMsg" Content="message" Style="{StaticResource DefaultLabel}" Margin="0,10,0,0" HorizontalAlignment="Center"/>
-                    <Button Content="確定" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="91,60,0,0" Click="ConfirmDelete"/>
-                    <Button Content="取消" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="179,60,0,0" Click="CancelDelete"/>
-               </Grid>
-          </Grid>
-     </Viewbox>
+            <Border x:Name="ConfirmBorder" Visibility="Hidden" CornerRadius="5" BorderThickness="0" Background="WhiteSmoke" Width="400" Height="130" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect Color="#FFACACAC" BlurRadius="10" ShadowDepth="1" Opacity="1"/>
+                </Border.Effect>
+            </Border>
+            <Grid x:Name="ConfirmBox" Visibility="Hidden" Width="400" Height="130" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label x:Name="ConfirmMsg" Content="message" Style="{StaticResource DefaultLabel}" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                <Button x:Name="ConfirmDeleteBtn" Content="確定" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="-130,85,0,0" HorizontalAlignment="Center" Click="ConfirmDelete"/>
+                <Button x:Name="CancelDeleteBtn" Content="取消" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="130,85,0,0" HorizontalAlignment="Center" Click="CancelDelete"/>
+                <Button x:Name="OKBtn" Content="確定" Visibility="Hidden" Background="#FFD8D8D8" Style="{StaticResource RoundButton}" Margin="0,85,0,0" HorizontalAlignment="Center" Click="OK"/>
+            </Grid>
+
+            <Grid x:Name="SwitchLanguage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="569,10,0,0">
+                <Button x:Name="ChineseBtn" Content="中文" Style="{StaticResource RoundButton}" Width="45" Height="30" Background="#FFE65705" Foreground="White" Click="Switch2Cht"/>
+                <Button x:Name="EnglishBtn" Content="Eng" Style="{StaticResource RoundButton}" Width="45" Height="30" Background="#FFA40000" Foreground="White" Margin="50,0,0,0" Click="Switch2Eng"/>
+            </Grid>
+        </Grid>
+    </Viewbox>
 </Window>
