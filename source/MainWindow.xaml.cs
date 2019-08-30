@@ -164,12 +164,14 @@ namespace RegEditor
                 {
                     if (SubRegKey.GetValue(this.NameValue.Text) == null)
                     {
-                        this.ConfirmMsg.Content = Msg[LanguageIdx, 0] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text; ;
+                        this.ConfirmMsg.Content = Msg[LanguageIdx, 0] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                        this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Red);
                     }
                     else
                     {
                         SubRegKey.DeleteValue(this.NameValue.Text);
-                        this.ConfirmMsg.Content = Msg[LanguageIdx, 1] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text; ;
+                        this.ConfirmMsg.Content = Msg[LanguageIdx, 1] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                        this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Black);
                     }
                 }
                 catch
@@ -179,6 +181,7 @@ namespace RegEditor
             else
             {
                 this.ConfirmMsg.Content = Msg[LanguageIdx, 2] + this.PathValue1.Text + "\\" + this.PathValue2.Text;
+                this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Red);
             }
             this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
             this.CancelDeleteBtn.Visibility = Visibility.Hidden;
@@ -302,6 +305,7 @@ namespace RegEditor
                     break;
             }
             this.ConfirmMsg.Content = Msg[LanguageIdx, 5] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+            this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Black);
             this.ConfirmAddBtn.Visibility = Visibility.Hidden;
             this.CancelDeleteBtn.Visibility = Visibility.Hidden;
             this.OKBtn.Visibility = Visibility.Visible;
@@ -346,18 +350,15 @@ namespace RegEditor
 
             if (valid)
             {
-                if (valid)
-                {
-                    this.ConfirmBorder.Visibility = Visibility.Visible;
-                    this.ConfirmBox.Visibility = Visibility.Visible;
-                    this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
-                    this.ConfirmAddBtn.Visibility = Visibility.Visible;
-                    this.CancelDeleteBtn.Visibility = Visibility.Visible;
-                    this.OKBtn.Visibility = Visibility.Hidden;
-                    string msg = Msg[LanguageIdx, 4] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
-                    this.ConfirmMsg.Content = msg;
-                    SetIsEnabled(false);
-                }
+                this.ConfirmBorder.Visibility = Visibility.Visible;
+                this.ConfirmBox.Visibility = Visibility.Visible;
+                this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
+                this.ConfirmAddBtn.Visibility = Visibility.Visible;
+                this.CancelDeleteBtn.Visibility = Visibility.Visible;
+                this.OKBtn.Visibility = Visibility.Hidden;
+                this.ConfirmMsg.Content = Msg[LanguageIdx, 4] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Black);
+                SetIsEnabled(false);
             }
         }
 
@@ -390,8 +391,8 @@ namespace RegEditor
                 this.ConfirmAddBtn.Visibility = Visibility.Hidden;
                 this.CancelDeleteBtn.Visibility = Visibility.Visible;
                 this.OKBtn.Visibility = Visibility.Hidden;
-                string msg = Msg[LanguageIdx, 3] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
-                this.ConfirmMsg.Content = msg;
+                this.ConfirmMsg.Content = Msg[LanguageIdx, 3] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                this.ConfirmMsg.Foreground = new SolidColorBrush(Colors.Black);
                 SetIsEnabled(false);
             }
         }
