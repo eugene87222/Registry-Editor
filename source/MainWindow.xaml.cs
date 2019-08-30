@@ -20,13 +20,17 @@ namespace RegEditor
         private double ErrorSize = 15;
 
         private int LanguageIdx = 1;
-        private string[,] Msg = new string[2, 4]
+        private string[,] Msg = new string[2, 6]
         {
             {
-                "以下名稱不存在\n", "以下名稱已刪除\n", "以下機碼不存在\n", "確定刪除以下名稱 ?\n"
+                "以下名稱不存在\n", "已刪除以下名稱\n", "以下機碼不存在\n",
+                "確定刪除以下名稱 ?\n", "確定新增/修改以下名稱 ?\n",
+                "已新增/修改以下名稱\n"
             },
             {
-                "The name below doesn't exist\n", "The name below is deleted successfully\n", "The key below doesn't exist\n", "Are you sure you want to delete the name below ?\n"
+                "The name below doesn't exist\n", "The name below is deleted successfully\n", "The key below doesn't exist\n",
+                "Are you sure you want to delete the name below ?\n", "Are you sure you want to add/modify the name below ?\n",
+                "The name below is added/modified successfully\n"
             }
         };
         private string[,] BtnContent = new string[2, 6]
@@ -67,6 +71,7 @@ namespace RegEditor
             this.DeleteBtn.Content = BtnContent[LanguageIdx, 4];
             this.ResetBtn.Content = BtnContent[LanguageIdx, 5];
             this.ConfirmDeleteBtn.Content = BtnContent[LanguageIdx, 0];
+            this.ConfirmAddBtn.Content = BtnContent[LanguageIdx, 0];
             this.CancelDeleteBtn.Content = BtnContent[LanguageIdx, 1];
             this.OKBtn.Content = BtnContent[LanguageIdx, 2];
         }
@@ -187,13 +192,129 @@ namespace RegEditor
             this.ConfirmBox.Visibility = Visibility.Hidden;
         }
 
+        private void ConfirmAdd(object sender, RoutedEventArgs e)
+        {
+            RegistryKey RegKey, SubRegKey;
+
+            switch (this.PathValue1.SelectedIndex)
+            {
+                case 0:
+                    RegKey = Registry.ClassesRoot;
+                    break;
+                case 1:
+                    RegKey = Registry.CurrentUser;
+                    break;
+                case 2:
+                    RegKey = Registry.LocalMachine;
+                    break;
+                case 3:
+                    RegKey = Registry.Users;
+                    break;
+                case 4:
+                    RegKey = Registry.CurrentConfig;
+                    break;
+                default:
+                    RegKey = null;
+                    break;
+            }
+            SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
+            if (SubRegKey == null)
+            {
+                RegKey.CreateSubKey(this.PathValue2.Text, true);
+                SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
+            }
+
+            switch (this.TypeValue.SelectedIndex)
+            {
+                case 0:
+                case 5:
+                    {
+                        string DataValue = this.DataValue1.Text;
+                        SubRegKey.SetValue(this.NameValue.Text, DataValue);
+                    }
+                    break;
+                case 1:
+                    {
+                        List<byte> DataValue = new List<byte>();
+                        for (int i = 0; i < this.DataValue2.LineCount; i++)
+                        {
+                            string[] parts = this.DataValue2.GetLineText(i).Replace("\r", "").Replace("\n", "").Split(' ');
+                            foreach (string b in parts)
+                            {
+                                if (b != "")
+                                    DataValue.Add(Convert.ToByte(b));
+                            }
+                        }
+                        SubRegKey.SetValue(this.NameValue.Text, DataValue.ToArray());
+                    }
+                    break;
+                case 2:
+                    {
+                        string DataValue = this.DataValue1.Text.Replace("\r", "").Replace("\n", "");
+                        if (DigitCheck(DataValue))
+                        {
+                            SetLabelStyle(this.Data, NormalColor, NormalBackGround, NormalOpacity, FontWeights.Normal, NormalSize);
+                            try
+                            {
+                                SubRegKey.SetValue(this.NameValue.Text, Convert.ToInt32(DataValue));
+                            }
+                            catch
+                            {
+                            }
+                        }
+                        else
+                        {
+                            this.ConfirmBorder.Visibility = Visibility.Hidden;
+                            this.ConfirmBox.Visibility = Visibility.Hidden;
+                            this.ConfirmAddBtn.Visibility = Visibility.Hidden;
+                            this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
+                            this.CancelDeleteBtn.Visibility = Visibility.Hidden;
+                            this.OKBtn.Visibility = Visibility.Hidden;
+                            SetIsEnabled(true);
+                            SetLabelStyle(this.Data, ErrorColor, ErrorBackGround, ErrorOpacity, FontWeights.Normal, ErrorSize);
+                        }
+                    }
+                    break;
+                //case 3:
+                //    {
+                //        string DataValue = this.DataValue1.Text.Replace("\r", "").Replace("\n", "");
+                //        if (DigitCheck(DataValue))
+                //        {
+                //            try
+                //            {
+                //                SubRegKey.SetValue(this.NameValue.Text, Convert.ToInt32(DataValue));
+                //            }
+                //            catch
+                //            {
+                //            }
+                //        }
+                //    }
+                //    break;
+                case 4:
+                    {
+                        List<string> DataValue = new List<string>();
+                        for (int i = 0; i < this.DataValue2.LineCount; i++)
+                        {
+                            DataValue.Add(this.DataValue2.GetLineText(i).Replace("\r", ""));
+                        }
+                        SubRegKey.SetValue(this.NameValue.Text, DataValue.ToArray());
+                    }
+                    break;
+            }
+            this.ConfirmMsg.Content = Msg[LanguageIdx, 5] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+            this.ConfirmAddBtn.Visibility = Visibility.Hidden;
+            this.CancelDeleteBtn.Visibility = Visibility.Hidden;
+            this.OKBtn.Visibility = Visibility.Visible;
+        }
+
         private void OK(object sender, RoutedEventArgs e)
         {
             SetIsEnabled(true);
             this.ConfirmBorder.Visibility = Visibility.Hidden;
             this.ConfirmBox.Visibility = Visibility.Hidden;
-            this.ConfirmDeleteBtn.Visibility = Visibility.Visible;
-            this.CancelDeleteBtn.Visibility = Visibility.Visible;
+            this.ConfirmAddBtn.Visibility = Visibility.Hidden;
+            this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
+            this.CancelDeleteBtn.Visibility = Visibility.Hidden;
             this.OKBtn.Visibility = Visibility.Hidden;
         }
 
@@ -225,99 +346,17 @@ namespace RegEditor
 
             if (valid)
             {
-                RegistryKey RegKey, SubRegKey;
-
-                switch (this.PathValue1.SelectedIndex)
+                if (valid)
                 {
-                    case 0:
-                        RegKey = Registry.ClassesRoot;
-                        break;
-                    case 1:
-                        RegKey = Registry.CurrentUser;
-                        break;
-                    case 2:
-                        RegKey = Registry.LocalMachine;
-                        break;
-                    case 3:
-                        RegKey = Registry.Users;
-                        break;
-                    case 4:
-                        RegKey = Registry.CurrentConfig;
-                        break;
-                    default:
-                        RegKey = null;
-                        break;
-                }
-                SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
-                if (SubRegKey == null)
-                {
-                    RegKey.CreateSubKey(this.PathValue2.Text, true);
-                    SubRegKey = RegKey.OpenSubKey(this.PathValue2.Text, true);
-                }
-
-                switch (this.TypeValue.SelectedIndex)
-                {
-                    case 0:
-                    case 5:
-                        {
-                            string DataValue = this.DataValue1.Text;
-                            SubRegKey.SetValue(this.NameValue.Text, DataValue);
-                        }
-                        break;
-                    case 1:
-                        {
-                            List<byte> DataValue = new List<byte>();
-                            for (int i = 0; i < this.DataValue2.LineCount; i++)
-                            {
-                                string[] parts = this.DataValue2.GetLineText(i).Replace("\r", "").Replace("\n", "").Split(' ');
-                                foreach (string b in parts)
-                                {
-                                    DataValue.Add(Convert.ToByte(b));
-                                }
-                            }
-                            SubRegKey.SetValue(this.NameValue.Text, DataValue.ToArray());
-                        }
-                        break;
-                    case 2:
-                        {
-                            string DataValue = this.DataValue1.Text.Replace("\r", "").Replace("\n", "");
-                            if (DigitCheck(DataValue))
-                            {
-                                try
-                                {
-                                    SubRegKey.SetValue(this.NameValue.Text, Convert.ToInt32(DataValue));
-                                }
-                                catch
-                                {
-                                }
-                            }
-                        }
-                        break;
-                    //case 3:
-                    //    {
-                    //        string DataValue = this.DataValue1.Text.Replace("\r", "").Replace("\n", "");
-                    //        if (DigitCheck(DataValue))
-                    //        {
-                    //            try
-                    //            {
-                    //                SubRegKey.SetValue(this.NameValue.Text, Convert.ToInt32(DataValue));
-                    //            }
-                    //            catch
-                    //            {
-                    //            }
-                    //        }
-                    //    }
-                    //    break;
-                    case 4:
-                        {
-                            List<string> DataValue = new List<string>();
-                            for (int i = 0; i < this.DataValue2.LineCount; i++)
-                            {
-                                DataValue.Add(this.DataValue2.GetLineText(i).Replace("\r", ""));
-                            }
-                            SubRegKey.SetValue(this.NameValue.Text, DataValue.ToArray());
-                        }
-                        break;
+                    this.ConfirmBorder.Visibility = Visibility.Visible;
+                    this.ConfirmBox.Visibility = Visibility.Visible;
+                    this.ConfirmDeleteBtn.Visibility = Visibility.Hidden;
+                    this.ConfirmAddBtn.Visibility = Visibility.Visible;
+                    this.CancelDeleteBtn.Visibility = Visibility.Visible;
+                    this.OKBtn.Visibility = Visibility.Hidden;
+                    string msg = Msg[LanguageIdx, 4] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
+                    this.ConfirmMsg.Content = msg;
+                    SetIsEnabled(false);
                 }
             }
         }
@@ -347,6 +386,10 @@ namespace RegEditor
             {
                 this.ConfirmBorder.Visibility = Visibility.Visible;
                 this.ConfirmBox.Visibility = Visibility.Visible;
+                this.ConfirmDeleteBtn.Visibility = Visibility.Visible;
+                this.ConfirmAddBtn.Visibility = Visibility.Hidden;
+                this.CancelDeleteBtn.Visibility = Visibility.Visible;
+                this.OKBtn.Visibility = Visibility.Hidden;
                 string msg = Msg[LanguageIdx, 3] + this.PathValue1.Text + "\\" + this.PathValue2.Text + ":" + this.NameValue.Text;
                 this.ConfirmMsg.Content = msg;
                 SetIsEnabled(false);
